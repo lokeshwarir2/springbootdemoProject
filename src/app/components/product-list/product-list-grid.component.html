@@ -1,0 +1,63 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Loop through products -->
+                <div *ngFor="let tempProduct of products" class="col-md-3">
+                    <div class="product-box">
+                        <!-- Product link with routerLink -->
+                        <a [routerLink]="'/products/' + tempProduct.id">
+                            <img [src]="tempProduct.imageUrl" class="img-responsive" alt="{{ tempProduct.name }}">
+                        </a>
+                        <!-- Product name link -->
+                        <a [routerLink]="'/products/' + tempProduct.id">
+                            <h1>{{ tempProduct.name }}</h1>
+                        </a>
+                        <!-- Product price -->
+                        <div class="price">
+                            {{ tempProduct.unitPrice | currency: 'USD' }}
+                            <button (click)="addToCart(tempProduct)" class="btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- No Products Found alert -->
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-3" role="alert">
+                    No Product Found!!
+                </div>
+            </div>
+
+            <!-- Pagination and Page Size -->
+            <div class="footer-pagination">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Empty space or other content -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <!-- Pagination Component -->
+                            <div class="col-md-9" style="padding-left: 30%;">
+                                <ngb-pagination 
+                                    [(page)]="thePageNumber"
+                                    [pageSize]="thePageSize"
+                                    [collectionSize]="theTotalElements"
+                                    (pageChange)="listProducts()">
+                                </ngb-pagination>
+                            </div>
+                            
+                            <!-- Page Size Dropdown -->
+                            <div class="col-md-3 mt-2" style="text-align: right;">
+                                <span class="mr-2">Page size</span>
+                                <select #myPageSelect (change)="updatePageSize(+myPageSelect.value)">
+                                    <option [value]="5">5</option>
+                                    <option [value]="10">10</option>
+                                    <option [value]="20">20</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
